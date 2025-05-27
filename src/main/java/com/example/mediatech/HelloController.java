@@ -1,10 +1,8 @@
 package com.example.mediatech;
-
 /* ! */
     import com.example.mediatech.medium.AbstractMedium;
 //  import com.example.mediatech.medium.IMedium;
 /* ! */
-
 import com.example.mediatech.medium.Buch;
 import com.example.mediatech.medium.DVD;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -12,16 +10,15 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-
-
 import java.net.URL;
 import java.util.ResourceBundle;
+
+/* ------------------------------------------------------------------------------------------------------------- */
 
 public class HelloController implements Initializable {
 
@@ -48,20 +45,7 @@ public class HelloController implements Initializable {
 
     public Label errorLabel;
 
-    @FXML
-    protected void toggleA() {
-        if (dvdRB.isSelected()) {
-            dvdRB.setSelected(false);
-            buchRB.setSelected(true);
-        }
-    }
-    @FXML
-    protected void toggleB() {
-        if (buchRB.isSelected()) {
-            buchRB.setSelected(false);
-            dvdRB.setSelected(true);
-        }
-    }
+/* ------------------------------------------------------------------------------------------------------------- */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -82,6 +66,21 @@ public class HelloController implements Initializable {
         });
 
         mediaTable.setItems(medienListe);
+    }
+
+    @FXML
+    protected void toggleA() {
+        if (dvdRB.isSelected()) {
+            dvdRB.setSelected(false);
+            buchRB.setSelected(true);
+        }
+    }
+    @FXML
+    protected void toggleB() {
+        if (buchRB.isSelected()) {
+            buchRB.setSelected(false);
+            dvdRB.setSelected(true);
+        }
     }
 
     @FXML

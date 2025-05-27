@@ -1,9 +1,9 @@
 package com.example.mediatech.medium;
 
 public abstract class AbstractMedium{
-    private String titel;
-    private String autor;
-    private int erscheinungsjahr;
+    private final String titel;
+    private final String autor;
+    private final int erscheinungsjahr;
 
     public AbstractMedium(String titel, String autor, int erscheinungsjahr) {
         this.titel = titel;

@@ -5,8 +5,6 @@ public class DVD extends AbstractMedium {
 
     public DVD(String titel, String autor, int erscheinungsjahr) {
         super(titel, autor, erscheinungsjahr);
-
-        this.fsk = fsk;
     }
 
     public String getFsk() {
