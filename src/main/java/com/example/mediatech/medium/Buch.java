@@ -1,4 +1,4 @@
-package com.example.bibliotech.medium;
+package com.example.mediatech.medium;
 
 public class Buch extends AbstractMedium {
     private String isbn;
