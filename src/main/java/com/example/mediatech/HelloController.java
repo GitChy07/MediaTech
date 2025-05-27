@@ -2,7 +2,7 @@ package com.example.mediatech;
 
 /* ! */
     import com.example.mediatech.medium.AbstractMedium;
-//  import com.example.mediatech.medium.AbstractMedium;
+//  import com.example.mediatech.medium.IMedium;
 /* ! */
 
 import com.example.mediatech.medium.Buch;
@@ -99,12 +99,13 @@ public class HelloController implements Initializable {
                     errorLabel.setText("Ungültiges Jahr");
                     return;
                 }
-                return;
-            } else {
-                System.out.println("Bitte alle Felder ausfüllen");
-                errorLabel.setText("Bitte alle Felder ausfüllen");
-                return;
             }
+        }
+
+        if (titel.isEmpty() || autor.isEmpty()) {
+            System.out.println("Bitte alle Felder ausfüllen");
+            errorLabel.setText("Bitte alle Felder ausfüllen");
+            return;
         }
 
         try {
