@@ -7,20 +7,29 @@ import com.example.mediatech.medium.Buch;
 import com.example.mediatech.medium.DVD;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+    import javafx.fxml.FXMLLoader;
+    import javafx.fxml.Initializable;
+import javafx.scene.Group;
+    import javafx.scene.Node;
+    import javafx.scene.Parent;
+    import javafx.scene.Scene;
+    import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import java.net.URL;
+    import javafx.stage.Stage;
+
+    import java.io.IOException;
+    import java.net.URL;
 import java.util.ResourceBundle;
 
 /* ------------------------------------------------------------------------------------------------------------- */
 
-public class HelloController implements Initializable {
+public class Controller implements Initializable {
 
     public Button addMediaButton;
     public Button searchButton;
@@ -45,7 +54,11 @@ public class HelloController implements Initializable {
 
     public Label errorLabel;
 
-/* ------------------------------------------------------------------------------------------------------------- */
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+    /* ------------------------------------------------------------------------------------------------------------- */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -142,7 +155,6 @@ public class HelloController implements Initializable {
         errorLabel.setText("");
 
     }
-
     @FXML
     protected void onDeleteButtonClick() {
         AbstractMedium ausgewähltesMedium = mediaTable.getSelectionModel().getSelectedItem();
@@ -166,6 +178,35 @@ public class HelloController implements Initializable {
             warnung.setContentText("Bitte wähle zuerst ein Medium in der Tabelle aus.");
             warnung.show();
         }
+    }
+
+
+    @FXML
+    protected void showAddMedia(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("AddMenuUI.fxml"));
+        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 520);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    protected void showSearchMenu(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("SearchUI.fxml"));
+        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 520);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    protected void showManageMenu(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("ManageUI.fxml"));
+        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 520);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
