@@ -9,23 +9,22 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-    import javafx.fxml.FXMLLoader;
-    import javafx.fxml.Initializable;
-import javafx.scene.Group;
-    import javafx.scene.Node;
-    import javafx.scene.Parent;
-    import javafx.scene.Scene;
-    import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-    import javafx.stage.Stage;
-
-    import java.io.IOException;
-    import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.net.URL;
+    import java.util.Objects;
+    import java.util.ResourceBundle;
 
 /* ------------------------------------------------------------------------------------------------------------- */
 
@@ -36,7 +35,7 @@ public class Controller implements Initializable {
     public Button manageButton;
 
     public TableView<AbstractMedium> mediaTable;
-    private final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
+    public static final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
 
     public TableColumn<AbstractMedium, String> titleColumn;
     public TableColumn<AbstractMedium, String> authorColumn;
@@ -58,6 +57,9 @@ public class Controller implements Initializable {
     private Scene scene;
     private Parent root;
 
+    public TextField SearchTF;
+    public Button SearchBTN;
+
     /* ------------------------------------------------------------------------------------------------------------- */
 
     @Override
@@ -67,7 +69,6 @@ public class Controller implements Initializable {
         titleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitel()));
         authorColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getAutor()));
         yearColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getErscheinungsjahr()));
-
         typColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue() instanceof Buch) {
                 return new ReadOnlyStringWrapper("Buch");
@@ -79,6 +80,7 @@ public class Controller implements Initializable {
         });
 
         mediaTable.setItems(medienListe);
+
     }
 
     @FXML
@@ -157,18 +159,18 @@ public class Controller implements Initializable {
     }
     @FXML
     protected void onDeleteButtonClick() {
-        AbstractMedium ausgewähltesMedium = mediaTable.getSelectionModel().getSelectedItem();
+        AbstractMedium ausgewaehltesMedium = mediaTable.getSelectionModel().getSelectedItem();
 
-        if (ausgewähltesMedium != null) {
+        if (ausgewaehltesMedium != null) {
             Alert bestaetigung = new Alert(AlertType.CONFIRMATION);
             bestaetigung.setTitle("Löschen bestätigen");
             bestaetigung.setHeaderText("Medium wirklich löschen?");
-            bestaetigung.setContentText("Möchtest du das Medium \"" + ausgewähltesMedium.getTitel() + "\" wirklich entfernen?");
+            bestaetigung.setContentText("Möchtest du das Medium \"" + ausgewaehltesMedium.getTitel() + "\" wirklich entfernen?");
 
             // Warten auf die Antwort des Benutzers
             bestaetigung.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    medienListe.remove(ausgewähltesMedium);
+                    medienListe.remove(ausgewaehltesMedium);
                 }
             });
         } else {
@@ -180,20 +182,26 @@ public class Controller implements Initializable {
         }
     }
 
-
     @FXML
     protected void showAddMedia(ActionEvent actionEvent) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AddMenuUI.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddMenuUI.fxml")));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
         stage.setScene(scene);
         stage.show();
 
     }
-
     @FXML
     protected void showSearchMenu(ActionEvent actionEvent) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("SearchUI.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SearchUI.fxml")));
+        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root, 700, 520);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    protected void showManageMenu(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ManageUI.fxml")));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
         stage.setScene(scene);
@@ -201,12 +209,38 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void showManageMenu(ActionEvent actionEvent) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("ManageUI.fxml"));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root, 700, 520);
-        stage.setScene(scene);
-        stage.show();
+    protected void onSearchBTN(ActionEvent actionEvent) {
+        String input = SearchTF.getText().trim().toLowerCase();
+
+        if (input.isEmpty()) {
+            mediaTable.setItems(medienListe);
+            errorLabel.setText("");
+            return;
+        }
+
+        ObservableList<AbstractMedium> matching = FXCollections.observableArrayList();
+
+        for (AbstractMedium m : medienListe) {
+            String titel = m.getTitel().toLowerCase();
+            String autor = m.getAutor().toLowerCase();
+            String jahr = String.valueOf(m.getErscheinungsjahr());
+            String typ = (m instanceof Buch) ? "buch" : (m instanceof DVD) ? "dvd" : "";
+
+            if (titel.contains(input)
+                    || autor.contains(input)
+                    || jahr.contains(input)
+                    || typ.contains(input)) {
+                matching.add(m);
+            }
+        }
+
+        if (matching.isEmpty()) {
+            errorLabel.setText("Keine Ergebnisse");
+        } else {
+            errorLabel.setText("");
+        }
+
+        mediaTable.setItems(matching);
     }
 
 }
