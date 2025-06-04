@@ -60,7 +60,7 @@ public class Controller implements Initializable {
     public TextField SearchTF;
     public Button SearchBTN;
 
-    /* ------------------------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------- */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
