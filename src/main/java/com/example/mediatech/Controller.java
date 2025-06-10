@@ -1,30 +1,22 @@
 package com.example.mediatech;
-/* ! */
-    import com.example.mediatech.medium.AbstractMedium;
-//  import com.example.mediatech.medium.IMedium;
-/* ! */
-import com.example.mediatech.medium.Buch;
-import com.example.mediatech.medium.DVD;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyStringWrapper;
+
+import com.example.mediatech.medium.*; // Importiere alle Klassen aus dem 'medium' Paket
+
+// JavaFX Imports
+import javafx.beans.property.*;  // Für ReadOnlyObjectWrapper und ReadOnlyStringWrapper
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
+import javafx.fxml.*;  // Für FXMLLoader, FXML und Initializable
+import javafx.scene.*;  // Für Node, Parent und Scene
+import javafx.stage.*;  // Für Stage
+import javafx.scene.control.*;  // Für alle JavaFX UI-Komponenten wie Button, Alert, etc.
+import javafx.collections.*;  // Für FXCollections und ObservableList
+
 import java.io.IOException;
 import java.net.URL;
-    import java.util.Objects;
-    import java.util.ResourceBundle;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import javafx.scene.control.Alert.AlertType;
 
 /* ------------------------------------------------------------------------------------------------------------- */
 
@@ -35,7 +27,8 @@ public class Controller implements Initializable {
     public Button manageButton;
 
     public TableView<AbstractMedium> mediaTable;
-    public static final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
+    // public static final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
+    public static final ObservableList<AbstractMedium> medienListe = Starter.medienListe;
 
     public TableColumn<AbstractMedium, String> titleColumn;
     public TableColumn<AbstractMedium, String> authorColumn;
@@ -162,7 +155,7 @@ public class Controller implements Initializable {
         AbstractMedium ausgewaehltesMedium = mediaTable.getSelectionModel().getSelectedItem();
 
         if (ausgewaehltesMedium != null) {
-            Alert bestaetigung = new Alert(AlertType.CONFIRMATION);
+            Alert bestaetigung = new Alert(     AlertType.CONFIRMATION);
             bestaetigung.setTitle("Löschen bestätigen");
             bestaetigung.setHeaderText("Medium wirklich löschen?");
             bestaetigung.setContentText("Möchtest du das Medium \"" + ausgewaehltesMedium.getTitel() + "\" wirklich entfernen?");
@@ -208,31 +201,21 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+
     @FXML
     protected void onSearchBTN(ActionEvent actionEvent) {
         String input = SearchTF.getText().trim().toLowerCase();
 
         if (input.isEmpty()) {
-            mediaTable.setItems(medienListe);
+            mediaTable.setItems(medienListe);  // Zeige alle Medien an, wenn kein Suchbegriff eingegeben wurde
             errorLabel.setText("");
             return;
         }
 
-        ObservableList<AbstractMedium> matching = FXCollections.observableArrayList();
-
-        for (AbstractMedium m : medienListe) {
-            String titel = m.getTitel().toLowerCase();
-            String autor = m.getAutor().toLowerCase();
-            String jahr = String.valueOf(m.getErscheinungsjahr());
-            String typ = (m instanceof Buch) ? "buch" : (m instanceof DVD) ? "dvd" : "";
-
-            if (titel.contains(input)
-                    || autor.contains(input)
-                    || jahr.contains(input)
-                    || typ.contains(input)) {
-                matching.add(m);
-            }
-        }
+        // Nutze Streams, um die Filterung eleganter durchzuführen
+        ObservableList<AbstractMedium> matching = medienListe.stream()
+                .filter(m -> m instanceof Suchfunktion && ((Suchfunktion) m).suchen(input))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
         if (matching.isEmpty()) {
             errorLabel.setText("Keine Ergebnisse");
@@ -240,7 +223,7 @@ public class Controller implements Initializable {
             errorLabel.setText("");
         }
 
-        mediaTable.setItems(matching);
+        mediaTable.setItems(matching);  // Zeige die gefilterte Liste an
     }
 
 }

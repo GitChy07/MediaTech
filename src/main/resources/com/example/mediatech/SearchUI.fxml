@@ -33,8 +33,8 @@
             <TableView fx:id="mediaTable" prefHeight="380.0" prefWidth="400.0">
                 <columns>
                     <TableColumn fx:id="titleColumn" maxWidth="153.59998071193695" minWidth="-Infinity" prefWidth="116.79998528957367" text="Title" />
-                    <TableColumn fx:id="yearColumn" maxWidth="131.2000503540039" minWidth="-1.0" prefWidth="104.00000762939453" text="Year" />
                     <TableColumn fx:id="authorColumn" maxWidth="139.19998168945312" minWidth="-1.0" prefWidth="99.19998168945312" text="Author" />
+                    <TableColumn fx:id="yearColumn" maxWidth="131.2000503540039" minWidth="-1.0" prefWidth="104.00000762939453" text="Year" />
                     <TableColumn fx:id="typColumn" maxWidth="153.59998071193695" minWidth="-1.0" prefWidth="46.4000244140625" text="Typ" />
                 </columns>
                 <columnResizePolicy>
