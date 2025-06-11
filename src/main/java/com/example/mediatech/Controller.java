@@ -52,6 +52,7 @@ public class Controller implements Initializable {
 
     public TextField SearchTF;
     public Button SearchBTN;
+    public Button CSVExportBTN;
 
 /* ------------------------------------------------------------------------------------------------------------- */
 
@@ -201,29 +202,51 @@ public class Controller implements Initializable {
         stage.show();
     }
 
-
     @FXML
     protected void onSearchBTN(ActionEvent actionEvent) {
+        // Hole den Suchbegriff
         String input = SearchTF.getText().trim().toLowerCase();
 
-        if (input.isEmpty()) {
-            mediaTable.setItems(medienListe);  // Zeige alle Medien an, wenn kein Suchbegriff eingegeben wurde
-            errorLabel.setText("");
-            return;
-        }
+        // Hole die gefilterte Liste basierend auf dem Suchbegriff
+        ObservableList<AbstractMedium> matching = filterMatching(input);
 
-        // Nutze Streams, um die Filterung eleganter durchzuführen
-        ObservableList<AbstractMedium> matching = medienListe.stream()
-                .filter(m -> m instanceof Suchfunktion && ((Suchfunktion) m).suchen(input))
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        // Zeige die gefilterte Liste in der TableView an
+        mediaTable.setItems(matching);
 
+        // Fehlermeldung, wenn keine Ergebnisse gefunden wurden
         if (matching.isEmpty()) {
             errorLabel.setText("Keine Ergebnisse");
         } else {
             errorLabel.setText("");
         }
+    }
+    @FXML
+    public void onCSVExportBTN(ActionEvent actionEvent) {
+        // Hole die Stage (Fenster), um sie an den CsvExport-Service zu übergeben
+        Stage stage = (Stage) CSVExportBTN.getScene().getWindow();
 
-        mediaTable.setItems(matching);  // Zeige die gefilterte Liste an
+        // Hole die gefilterte Liste basierend auf der Suche
+        String input = SearchTF.getText().trim().toLowerCase();
+        ObservableList<AbstractMedium> matching = filterMatching(input);
+
+        // Rufe den Export-Service auf und übergebe die gefilterte Liste
+        CsvExport.exportToCSV(stage, matching);
+    }
+    @FXML
+    private ObservableList<AbstractMedium> filterMatching(String input) {
+        // Wenn der Suchbegriff leer ist, gebe alle Medien zurück
+        if (input.isEmpty()) {
+            return medienListe;
+        }
+
+        // Filtere die Liste der Medien basierend auf dem Suchbegriff
+        return medienListe.stream()
+                .filter(m -> m.getTitel().toLowerCase().contains(input) ||
+                        m.getAutor().toLowerCase().contains(input) ||
+                        String.valueOf(m.getErscheinungsjahr()).contains(input) ||
+                        (m instanceof Buch && "buch".contains(input)) ||
+                        (m instanceof DVD && "dvd".contains(input)))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
 }
