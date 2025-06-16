@@ -62,13 +62,15 @@ public class CsvExport {
         int typBreite = 10;
 
         // Header der Tabelle
-        System.out.println("Medienliste (Tabellarisch):");
+        System.out.println("Medienliste:");
         System.out.println("---------------------------------------------------------------");
+        // String Formating aus dem Internet kopiert und angepasst
         System.out.printf("%-" + titelBreite + "s %-" + autorBreite + "s %-" + jahrBreite + "s %-" + typBreite + "s%n", "Titel", "Autor", "Erscheinungsjahr", "Typ");
         System.out.println("---------------------------------------------------------------");
 
         // Ausgabe der gefilterten Medien in der Tabelle
         for (AbstractMedium medium : matching) {
+            // String Formating aus dem Internet kopiert und angepasst
             System.out.printf("%-" + titelBreite + "s %-" + autorBreite + "s %-" + jahrBreite + "d %-" + typBreite + "s%n",
                     medium.getTitel(),
                     medium.getAutor(),
