@@ -56,7 +56,7 @@ public class Controller implements Initializable {
     public Button CSVExportBTN;
     public Button CSVImportBTN;
 
-/* ------------------------------------------------------------------------------------------------------------- */
+    /* ------------------------------------------------------------------------------------------------------------- */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -158,7 +158,7 @@ public class Controller implements Initializable {
         AbstractMedium ausgewaehltesMedium = mediaTable.getSelectionModel().getSelectedItem();
 
         if (ausgewaehltesMedium != null) {
-            Alert bestaetigung = new Alert(     AlertType.CONFIRMATION);
+            Alert bestaetigung = new Alert(AlertType.CONFIRMATION);
             bestaetigung.setTitle("Löschen bestätigen");
             bestaetigung.setHeaderText("Medium wirklich löschen?");
             bestaetigung.setContentText("Möchtest du das Medium \"" + ausgewaehltesMedium.getTitel() + "\" wirklich entfernen?");
@@ -183,7 +183,7 @@ public class Controller implements Initializable {
     @FXML
     protected void showAddMedia(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddMenuUI.fxml")));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
         stage.setScene(scene);
         stage.show();
@@ -192,7 +192,7 @@ public class Controller implements Initializable {
     @FXML
     protected void showSearchMenu(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SearchUI.fxml")));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
         stage.setScene(scene);
         stage.show();
@@ -200,7 +200,7 @@ public class Controller implements Initializable {
     @FXML
     protected void showManageMenu(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ManageUI.fxml")));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
         stage.setScene(scene);
         stage.show();
@@ -256,19 +256,20 @@ public class Controller implements Initializable {
 
     @FXML
     private ObservableList<AbstractMedium> filterMatching(String input) {
+        ObservableList<AbstractMedium> matching = FXCollections.observableArrayList();
+
         // Wenn der Suchbegriff leer ist, gebe alle Medien zurück
         if (input.isEmpty()) {
-            return medienListe;
+            return medienListe; // Gibt die komplette Liste zurück, wenn kein Suchbegriff angegeben wurde
         }
 
-        // Filtere die Liste der Medien basierend auf dem Suchbegriff
-        return medienListe.stream()
-                .filter(m -> m.getTitel().toLowerCase().contains(input) ||
-                        m.getAutor().toLowerCase().contains(input) ||
-                        String.valueOf(m.getErscheinungsjahr()).contains(input) ||
-                        (m instanceof Buch && "buch".contains(input)) ||
-                        (m instanceof DVD && "dvd".contains(input)))
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        // Durchlaufe alle Medien und prüfe, ob der Suchbegriff in Titel, Autor, Jahr oder Typ enthalten ist
+        for (AbstractMedium medium : medienListe) {
+                if (((Suchfunktion) medium).suchen(input.toLowerCase())) {
+                    matching.add(medium); // Füge das Medium zur Liste hinzu, wenn es passt
+                }
+            }
+        return matching; // Rückgabe der gefilterten Liste
     }
 
 }
