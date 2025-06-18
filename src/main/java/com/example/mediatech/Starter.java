@@ -12,14 +12,12 @@ import java.io.IOException;
 
 public class Starter extends Application {
 
-    // Die ObservableList, die mit Beispiel-Daten gefüllt wird
     public static final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage stage) throws IOException {
 
-        // Beispiel-Datensätze beim Start hinzufügen
-        TestDataGenerator.generateSampleData();  // Aufruf der Testdatengenerierung
+        TestDataGenerator.generateSampleData();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Starter.class.getResource("AddMenuUI.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 520);

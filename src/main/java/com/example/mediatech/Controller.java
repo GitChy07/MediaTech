@@ -46,6 +46,7 @@ public class Controller implements Initializable {
 
     public Label errorLabel;
 
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -53,6 +54,7 @@ public class Controller implements Initializable {
     public TextField SearchTF;
     public Button SearchBTN;
     public Button CSVExportBTN;
+    public Button CSVImportBTN;
 
 /* ------------------------------------------------------------------------------------------------------------- */
 
@@ -166,13 +168,15 @@ public class Controller implements Initializable {
                 if (response == ButtonType.OK) {
                     medienListe.remove(ausgewaehltesMedium);
                 }
-            });
+            }
+            );
         } else {
             Alert warnung = new Alert(AlertType.WARNING);
             warnung.setTitle("Keine Auswahl");
             warnung.setHeaderText("Kein Medium ausgewählt");
             warnung.setContentText("Bitte wähle zuerst ein Medium in der Tabelle aus.");
             warnung.show();
+
         }
     }
 
@@ -232,6 +236,24 @@ public class Controller implements Initializable {
         // Rufe den Export-Service auf und übergebe die gefilterte Liste
         CsvExport.exportToCSV(stage, matching);
     }
+
+    @FXML
+    public void onCSVImportBTN(ActionEvent actionEvent) {
+        ObservableList<AbstractMedium> importierteListe = CSVImport.importFromCSV(stage);
+
+
+
+        if (importierteListe != null && !importierteListe.isEmpty()) {
+
+            medienListe.setAll(importierteListe); // ersetze aktuelle Liste
+            mediaTable.setItems(medienListe);
+        } else {
+            System.out.println("Keine gültigen Daten importiert.");
+        }
+    }
+
+
+
     @FXML
     private ObservableList<AbstractMedium> filterMatching(String input) {
         // Wenn der Suchbegriff leer ist, gebe alle Medien zurück

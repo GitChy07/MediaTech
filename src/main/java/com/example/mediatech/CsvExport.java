@@ -25,7 +25,6 @@ public class CsvExport {
         // Wenn eine Datei ausgewählt wurde, speichere sie
         if (file != null) {
             saveToFile(file, matching); // Übergebe die gefilterte Liste an die Methode
-            printToConsole(matching);   // Gebe die gefilterte Liste im Terminal aus
         }
     }
 
@@ -51,30 +50,5 @@ public class CsvExport {
         } catch (IOException e) {
             System.err.println("Fehler beim Speichern der CSV-Datei: " + e.getMessage());
         }
-    }
-
-    // Methode zum Anzeigen der Tabelle im Terminal
-    private static void printToConsole(ObservableList<AbstractMedium> matching) {
-        // Feste Breite für jede Spalte
-        int titelBreite = 30;
-        int autorBreite = 30;
-        int jahrBreite = 20;
-        int typBreite = 10;
-
-        // Header der Tabelle
-        System.out.println("Medienliste (Tabellarisch):");
-        System.out.println("---------------------------------------------------------------");
-        System.out.printf("%-" + titelBreite + "s %-" + autorBreite + "s %-" + jahrBreite + "s %-" + typBreite + "s%n", "Titel", "Autor", "Erscheinungsjahr", "Typ");
-        System.out.println("---------------------------------------------------------------");
-
-        // Ausgabe der gefilterten Medien in der Tabelle
-        for (AbstractMedium medium : matching) {
-            System.out.printf("%-" + titelBreite + "s %-" + autorBreite + "s %-" + jahrBreite + "d %-" + typBreite + "s%n",
-                    medium.getTitel(),
-                    medium.getAutor(),
-                    medium.getErscheinungsjahr(),
-                    medium.getClass().getSimpleName());
-        }
-        System.out.println("---------------------------------------------------------------");
     }
 }
