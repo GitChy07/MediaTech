@@ -47,21 +47,8 @@
 }
 
 .heading-label {
-    -fx-font-size: 22px;
+    -fx-font-size: 50px;
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
 }
 
-.primary-button {
-    -fx-pref-width: 200px;
-    -fx-font-size: 14px;
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-background-radius: 0;
-    -fx-padding: 10 20;
-    -fx-font-weight: bold;
-}
-
-.primary-button:hover {
-    -fx-background-color: #2980b9;
-}
