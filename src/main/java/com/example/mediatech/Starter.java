@@ -21,6 +21,9 @@ public class Starter extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Starter.class.getResource("AddMenuUI.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 520);
+        String css = this.getClass().getResource("style.css").toExternalForm();
+        scene.getStylesheets().add(css);
+
         stage.setTitle("MediaTech");
         stage.setScene(scene);
         stage.show();
