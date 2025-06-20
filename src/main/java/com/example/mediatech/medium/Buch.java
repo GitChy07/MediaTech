@@ -17,6 +17,10 @@ public class Buch extends AbstractMedium implements Suchfunktion {
         super(titel, autor, erscheinungsjahr);
     }
 
+    public String getTyp(){
+        return "Buch";
+    }
+
     public String getIsbn() {
         return isbn;
     }
@@ -30,6 +34,7 @@ public class Buch extends AbstractMedium implements Suchfunktion {
         return  getTitel().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 getAutor().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 String.valueOf(getErscheinungsjahr()).contains(suchbegriff) ||
+                getTyp().toLowerCase().contains(suchbegriff) ||
                 (isbn != null && isbn.contains(suchbegriff));
     }
 

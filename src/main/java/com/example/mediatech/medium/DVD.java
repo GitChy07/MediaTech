@@ -14,13 +14,18 @@ public class DVD extends AbstractMedium implements Suchfunktion {
         return fsk;
     }
 
+    public String getTyp(){
+        return "DVD";
+    }
+
     @Override
     public boolean suchen(String suchbegriff) {
         // Sucht nach dem Titel, Autor, Erscheinungsjahr und FSK
         return getTitel().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 getAutor().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 String.valueOf(getErscheinungsjahr()).contains(suchbegriff) ||
-                (fsk != null && fsk.contains(suchbegriff));  // Suche nach FSK
+                getTyp().toLowerCase().contains(suchbegriff) ||
+                (fsk != null && fsk.contains(suchbegriff));
     }
 
 }

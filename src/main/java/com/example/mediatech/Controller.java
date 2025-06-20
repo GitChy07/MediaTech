@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+
 import javafx.scene.control.Alert.AlertType;
 
 /* ------------------------------------------------------------------------------------------------------------- */
@@ -45,8 +45,7 @@ public class Controller implements Initializable {
     public Button deleteButton;
 
     public Label errorLabel;
-    public Button neueListeButton;
-    public Button importButton;
+    public Button saveButton;
 
 
     private Stage stage;
@@ -56,7 +55,7 @@ public class Controller implements Initializable {
     public TextField SearchTF;
     public Button SearchBTN;
     public Button CSVExportBTN;
-    public Button CSVImportBTN;
+
 
     /* ------------------------------------------------------------------------------------------------------------- */
 
@@ -70,6 +69,7 @@ public class Controller implements Initializable {
         typColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue() instanceof Buch) {
                 return new ReadOnlyStringWrapper("Buch");
+
             } else if (cellData.getValue() instanceof DVD) {
                 return new ReadOnlyStringWrapper("DVD");
             } else {
@@ -182,6 +182,7 @@ public class Controller implements Initializable {
         }
     }
 
+
     @FXML
     protected void showAddMedia(ActionEvent actionEvent) throws IOException {
 
@@ -247,22 +248,6 @@ public class Controller implements Initializable {
         CsvExport.exportToCSV(stage, matching);
     }
 
-    @FXML
-    public void onCSVImportBTN(ActionEvent actionEvent) {
-        ObservableList<AbstractMedium> importierteListe = CSVImport.importFromCSV(stage);
-
-
-
-        if (importierteListe != null && !importierteListe.isEmpty()) {
-
-            medienListe.setAll(importierteListe); // ersetze aktuelle Liste
-            mediaTable.setItems(medienListe);
-        } else {
-            System.out.println("Keine gültigen Daten importiert.");
-        }
-    }
-
-
 
     @FXML
     private ObservableList<AbstractMedium> filterMatching(String input) {
@@ -282,6 +267,54 @@ public class Controller implements Initializable {
         return matching; // Rückgabe der gefilterten Liste
     }
 
+    @FXML
+    private void onMediaSelected() {
+        AbstractMedium medium = mediaTable.getSelectionModel().getSelectedItem();
+        if (medium == null) return;
 
-    //Test
+        TitleTF.setText(medium.getTitel());
+        AuthorTF.setText(medium.getAutor());
+        YearTF.setText(String.valueOf(medium.getErscheinungsjahr()));
+
+        if(medium instanceof Buch buch){
+            buchRB.setSelected(true);
+        }else {
+            dvdRB.setSelected(true);
+        }
+    }
+
+
+    @FXML
+    public void onSaveButtonClick(ActionEvent actionEvent) {
+        AbstractMedium medium = mediaTable.getSelectionModel().getSelectedItem();
+
+        String titel = TitleTF.getText();
+        String autor = AuthorTF.getText();
+
+        if (medium == null) return;
+
+        medium.setTitel(TitleTF.getText());
+
+        if (titel.isEmpty() || autor.isEmpty()) {
+            System.out.println("Bitte alle Felder ausfüllen");
+            errorLabel.setText("Bitte alle Felder ausfüllen");
+
+        }
+
+        try {
+            int jahr = Integer.parseInt(YearTF.getText());
+            medium.setErscheinungsjahr(jahr);
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Ungültiges Jahr");
+        }
+
+        medium.setAutor(AuthorTF.getText()); // direkt auf AbstractMedium
+
+        mediaTable.refresh();
+
+        TitleTF.clear();
+        AuthorTF.clear();
+        YearTF.clear();
+    }
+
 }

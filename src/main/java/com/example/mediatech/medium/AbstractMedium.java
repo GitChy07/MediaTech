@@ -1,9 +1,9 @@
 package com.example.mediatech.medium;
 
 public abstract class AbstractMedium{
-    private final String titel;
-    private final String autor;
-    private final int erscheinungsjahr;
+    private String titel;
+    private String autor;
+    private int erscheinungsjahr;
 
     public AbstractMedium(String titel, String autor, int erscheinungsjahr) {
         this.titel = titel;
@@ -19,6 +19,17 @@ public abstract class AbstractMedium{
 
     public int getErscheinungsjahr() {
         return erscheinungsjahr;
+    }
+
+    public void setTitel(String titel) {
+        this.titel = titel;
+    };
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setErscheinungsjahr(int jahr) {
+        this.erscheinungsjahr = erscheinungsjahr;
     }
 
 }
