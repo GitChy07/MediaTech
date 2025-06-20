@@ -9,7 +9,7 @@
       prefHeight="522.0" prefWidth="591.0"
       spacing="20" alignment="CENTER">
 
-    <Label text="Willkommen!" styleClass="heading-label"/>
+    <Label text="LIB" styleClass="heading-label"/>
 
     <Button fx:id="importButton"
             text="CSV importieren"
