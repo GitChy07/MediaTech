@@ -45,6 +45,8 @@ public class Controller implements Initializable {
     public Button deleteButton;
 
     public Label errorLabel;
+    public Button neueListeButton;
+    public Button importButton;
 
 
     private Stage stage;
@@ -182,6 +184,7 @@ public class Controller implements Initializable {
 
     @FXML
     protected void showAddMedia(ActionEvent actionEvent) throws IOException {
+
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddMenuUI.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
@@ -189,7 +192,6 @@ public class Controller implements Initializable {
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.show();
-
     }
     @FXML
     protected void showSearchMenu(ActionEvent actionEvent) throws IOException {
@@ -279,5 +281,7 @@ public class Controller implements Initializable {
             }
         return matching; // Rückgabe der gefilterten Liste
     }
-  //Test
+
+
+    //Test
 }

@@ -10,6 +10,7 @@ module com.example.mediatech {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires com.fasterxml.jackson.core;
 
     opens com.example.mediatech to javafx.fxml;
     exports com.example.mediatech;

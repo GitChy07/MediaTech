@@ -6,7 +6,7 @@
 
 /* Buttons – flach, eckig, einfarbig */
 .button {
-    -fx-background-color: #3498db;  /* Blau, kannst du ändern */
+    -fx-background-color: #8a6642;  /* Blau, kannst du ändern */
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 0;       /* eckig */
@@ -26,7 +26,7 @@
 
 /* Tabellenansicht */
 .table-view {
-    -fx-background-color: black;
+    -fx-background-color: grey;
     -fx-border-color: #ccc;
     -fx-table-cell-border-color: #ddd;
 }
@@ -46,3 +46,22 @@
     -fx-text-fill: #2c3e50;
 }
 
+.heading-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.primary-button {
+    -fx-pref-width: 200px;
+    -fx-font-size: 14px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2980b9;
+}

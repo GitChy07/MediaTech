@@ -17,9 +17,8 @@ public class Starter extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        TestDataGenerator.generateSampleData();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Starter.class.getResource("AddMenuUI.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Starter.class.getResource("StartMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 520);
         String css = this.getClass().getResource("style.css").toExternalForm();
         scene.getStylesheets().add(css);
