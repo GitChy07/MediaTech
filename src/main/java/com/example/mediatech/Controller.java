@@ -276,11 +276,6 @@ public class Controller implements Initializable {
         AuthorTF.setText(medium.getAutor());
         YearTF.setText(String.valueOf(medium.getErscheinungsjahr()));
 
-        if(medium instanceof Buch buch){
-            buchRB.setSelected(true);
-        }else {
-            dvdRB.setSelected(true);
-        }
     }
 
 
@@ -293,12 +288,10 @@ public class Controller implements Initializable {
 
         if (medium == null) return;
 
-        medium.setTitel(TitleTF.getText());
-
         if (titel.isEmpty() || autor.isEmpty()) {
             System.out.println("Bitte alle Felder ausfüllen");
             errorLabel.setText("Bitte alle Felder ausfüllen");
-
+            return;
         }
 
         try {
@@ -306,9 +299,12 @@ public class Controller implements Initializable {
             medium.setErscheinungsjahr(jahr);
         } catch (NumberFormatException e) {
             errorLabel.setText("Ungültiges Jahr");
+            return;
         }
 
-        medium.setAutor(AuthorTF.getText()); // direkt auf AbstractMedium
+        medium.setTitel(TitleTF.getText());
+        medium.setAutor(AuthorTF.getText());
+        medium.setErscheinungsjahr(Integer.parseInt(YearTF.getText()));
 
         mediaTable.refresh();
 
