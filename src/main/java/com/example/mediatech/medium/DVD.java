@@ -1,22 +1,34 @@
 package com.example.mediatech.medium;
 
-public class DVD extends AbstractMedium implements Suchfunktion {
+import com.example.mediatech.funktionalitaeten.GemeinsameMethoden;
 
-    private String fsk;
+public class DVD extends AbstractMedium implements GemeinsameMethoden {
 
-    public void setFsk(String fsk) {this.fsk = fsk;}
+    private int fsk;
+
+    public void setFsk(int fsk) {this.fsk = fsk;}
+    public int getFsk() { return fsk; }
+
+    @Override
+    public String getExtAttrDesc(int attrNumber) {
+        return switch (attrNumber) {
+            case 1 -> "FSK";
+            default -> "NULL";
+        };
+    }
+    @Override
+    public String getExtAttrVal(int attrNumber) {
+        return switch (attrNumber) {
+            case 1 -> String.valueOf(getFsk());
+            default -> "";
+        };
+    }
 
     public DVD(String titel, String autor, int erscheinungsjahr) {
         super(titel, autor, erscheinungsjahr);
     }
 
-    public String getFsk() {
-        return fsk;
-    }
-
-    public String getTyp(){
-        return "DVD";
-    }
+    public String getTyp(){ return "DVD"; }
 
     @Override
     public boolean suchen(String suchbegriff) {
@@ -24,8 +36,7 @@ public class DVD extends AbstractMedium implements Suchfunktion {
         return getTitel().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 getAutor().toLowerCase().contains(suchbegriff.toLowerCase()) ||
                 String.valueOf(getErscheinungsjahr()).contains(suchbegriff) ||
-                getTyp().toLowerCase().contains(suchbegriff) ||
-                (fsk != null && fsk.contains(suchbegriff));
+                getTyp().toLowerCase().contains(suchbegriff);
     }
 
 }

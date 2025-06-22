@@ -10,7 +10,6 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 0;       /* eckig */
-    -fx-padding: 8 16;
     -fx-border-color: transparent;
 }
 
@@ -20,7 +19,7 @@
 
 /* Labels */
 .label {
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-text-fill: #2c3e50;
 }
 
@@ -36,13 +35,12 @@
     -fx-background-color: white;
     -fx-border-color: #ccc;
     -fx-border-radius: 0;
-    -fx-padding: 6;
     -fx-text-fill: #333;
 }
 
 /* Radio-Buttons */
 .radio-button {
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-text-fill: #2c3e50;
 }
 
@@ -51,4 +49,3 @@
     -fx-font-weight: bold;
     -fx-text-fill: #2c3e50;
 }
-

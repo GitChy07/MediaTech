@@ -1,4 +1,4 @@
-package com.example.mediatech;
+package com.example.mediatech.funktionalitaeten;
 
 import com.example.mediatech.medium.AbstractMedium;
 import javafx.stage.FileChooser;

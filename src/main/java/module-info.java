@@ -14,4 +14,8 @@ module com.example.mediatech {
 
     opens com.example.mediatech to javafx.fxml;
     exports com.example.mediatech;
+    exports com.example.mediatech.funktionalitaeten;
+    opens com.example.mediatech.funktionalitaeten to javafx.fxml;
+    exports com.example.mediatech.controller;
+    opens com.example.mediatech.controller to javafx.fxml;
 }
