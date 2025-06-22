@@ -22,14 +22,6 @@ public class Buch extends AbstractMedium implements GemeinsameMethoden {
     }
 
     @Override
-    public String getExtAttrDesc(int attrNumber) {
-        return switch (attrNumber) {
-            case 1 -> "ISBN";
-            case 2 -> "Seitenzahl";
-            default -> "NULL";
-        };
-    }
-    @Override
     public String getExtAttrVal(int attrNumber) {
         return switch (attrNumber) {
             case 1 -> getIsbn();
