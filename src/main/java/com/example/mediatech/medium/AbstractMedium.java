@@ -28,8 +28,6 @@ public abstract class AbstractMedium{
         this.autor = autor;
     }
 
-    public void setErscheinungsjahr(int jahr) {
-        this.erscheinungsjahr = erscheinungsjahr;
-    }
+    public void setErscheinungsjahr(int jahr) {this.erscheinungsjahr = erscheinungsjahr;}
 
 }

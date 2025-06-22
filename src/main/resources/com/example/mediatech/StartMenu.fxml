@@ -3,17 +3,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="522.0" prefWidth="591.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mediatech.StartController">
+<VBox alignment="CENTER" prefHeight="522.0" prefWidth="591.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mediatech.controller.StartCon">
 
     <Label alignment="TOP_CENTER" prefHeight="75.0" prefWidth="531.0" styleClass="heading-label" text="LIBRARY INVENTORY" />
 
     <Button fx:id="importButton" onAction="#onCSVImportBTN" prefHeight="46.0" prefWidth="150.0" styleClass="primary-button" text="CSV importieren" />
 
     <Button fx:id="neueListeButton" onAction="#showAddMedia" prefHeight="46.0" prefWidth="150.0" styleClass="primary-button" text="Neue Liste starten" />
-   <HBox alignment="CENTER" fillHeight="false" prefHeight="66.0" prefWidth="591.0">
-      <children>
-         <Label alignment="CENTER" prefHeight="17.0" prefWidth="525.0" text="©2025 GitChy07 and eliggi. All Rights Reserved" />
-      </children>
-   </HBox>
+    <HBox alignment="CENTER" fillHeight="false" prefHeight="66.0" prefWidth="591.0">
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="525.0"
+               text="©2025 GitChy07 and eliggi. All Rights Reserved"/>
+    </HBox>
 
 </VBox>

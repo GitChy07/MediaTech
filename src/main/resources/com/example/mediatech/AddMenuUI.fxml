@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="522.0" prefWidth="591.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mediatech.Controller">
+<VBox prefHeight="522.0" prefWidth="591.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mediatech.controller.AddMediaCon">
 
     <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="54.0" prefWidth="579.0" spacing="10.0">
         <Button fx:id="addMediaButton" onAction="#showAddMedia" text="Add Media" />
@@ -14,7 +14,7 @@
     </HBox>
     <VBox minWidth="-Infinity" prefHeight="448.0" prefWidth="582.0">
         <HBox alignment="CENTER_LEFT">
-            <Label fx:id="titelLabel" graphicTextGap="0.0" prefHeight="37.0" prefWidth="193.0" text="LIBRARY INVENTORY">
+            <Label graphicTextGap="0.0" prefHeight="37.0" prefWidth="193.0" text="LIBRARY INVENTORY">
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                 </padding>

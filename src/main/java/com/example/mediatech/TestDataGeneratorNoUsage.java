@@ -3,7 +3,7 @@ package com.example.mediatech;
 import com.example.mediatech.medium.Buch;
 import com.example.mediatech.medium.DVD;
 
-public class TestDataGenerator {
+public class TestDataGeneratorNoUsage {
 
 
     public static void generateSampleData() {
@@ -19,10 +19,10 @@ public class TestDataGenerator {
 
 
         DVD dvd1 = new DVD("Inception", "Christopher Nolan", 2010);
-        dvd1.setFsk("12");
+        dvd1.setFsk(12);
 
         DVD dvd2 = new DVD("The Dark Knight", "Christopher Nolan", 2008);
-        dvd2.setFsk("12");
+        dvd2.setFsk(12);
 
         Starter.medienListe.add(buch1);
         Starter.medienListe.add(buch2);
