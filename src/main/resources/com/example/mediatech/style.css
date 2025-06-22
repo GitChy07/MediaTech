@@ -18,20 +18,19 @@
     -fx-background-color: #543a21;
 }
 
-/* Labels */
 .label {
     -fx-font-size: 13px;
     -fx-text-fill: #2c3e50;
 }
 
-/* Tabellenansicht */
+
 .table-view {
     -fx-background-color: grey;
     -fx-border-color: #ccc;
     -fx-table-cell-border-color: #ddd;
 }
 
-/* Textfelder – eckig, weiß mit grauer Umrandung */
+
 .text-field {
     -fx-background-color: white;
     -fx-border-color: #ccc;
@@ -40,11 +39,6 @@
     -fx-text-fill: #333;
 }
 
-/* Radio-Buttons */
-.radio-button {
-    -fx-font-size: 13px;
-    -fx-text-fill: #2c3e50;
-}
 
 .heading-label {
     -fx-font-size: 50px;

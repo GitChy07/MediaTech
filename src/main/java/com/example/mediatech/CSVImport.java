@@ -38,7 +38,7 @@ public class CSVImport {
 
             while ((line = reader.readLine()) != null) {
                 if (firstLine) {
-                    firstLine = false; // Überspringe Header-Zeile
+                    firstLine = false;
                     continue;
                 }
 
@@ -71,5 +71,4 @@ public class CSVImport {
 
         return liste;
     }
-    //tEST
 }

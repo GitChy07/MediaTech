@@ -27,7 +27,6 @@ public class Controller implements Initializable {
     public Button manageButton;
 
     public TableView<AbstractMedium> mediaTable;
-    // public static final ObservableList<AbstractMedium> medienListe = FXCollections.observableArrayList();
     public static final ObservableList<AbstractMedium> medienListe = Starter.medienListe;
 
     public TableColumn<AbstractMedium, String> titleColumn;
@@ -82,14 +81,15 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void toggleA() {
+    private void toggleA() {
         if (dvdRB.isSelected()) {
             dvdRB.setSelected(false);
             buchRB.setSelected(true);
         }
     }
+
     @FXML
-    protected void toggleB() {
+    private void toggleB() {
         if (buchRB.isSelected()) {
             buchRB.setSelected(false);
             dvdRB.setSelected(true);
@@ -97,7 +97,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void onAddButtonClick() {
+    private void onAddButtonClick() {
         String titel = TitleTF.getText();
         String autor = AuthorTF.getText();
         int jahr;
@@ -155,8 +155,9 @@ public class Controller implements Initializable {
         errorLabel.setText("");
 
     }
+
     @FXML
-    protected void onDeleteButtonClick() {
+    private void onDeleteButtonClick() {
         AbstractMedium ausgewaehltesMedium = mediaTable.getSelectionModel().getSelectedItem();
 
         if (ausgewaehltesMedium != null) {
@@ -165,7 +166,6 @@ public class Controller implements Initializable {
             bestaetigung.setHeaderText("Medium wirklich löschen?");
             bestaetigung.setContentText("Möchtest du das Medium \"" + ausgewaehltesMedium.getTitel() + "\" wirklich entfernen?");
 
-            // Warten auf die Antwort des Benutzers
             bestaetigung.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     medienListe.remove(ausgewaehltesMedium);
@@ -184,7 +184,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    protected void showAddMedia(ActionEvent actionEvent) throws IOException {
+    private void showAddMedia(ActionEvent actionEvent) throws IOException {
 
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddMenuUI.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -194,8 +194,9 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
-    protected void showSearchMenu(ActionEvent actionEvent) throws IOException {
+    private void showSearchMenu(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SearchUI.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
@@ -205,8 +206,9 @@ public class Controller implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
-    protected void showManageMenu(ActionEvent actionEvent) throws IOException {
+    private void showManageMenu(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ManageUI.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root, 700, 520);
@@ -218,7 +220,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void onSearchBTN(ActionEvent actionEvent) {
+    private void onSearchBTN(ActionEvent actionEvent) {
         // Hole den Suchbegriff
         String input = SearchTF.getText().trim().toLowerCase();
 
@@ -235,8 +237,9 @@ public class Controller implements Initializable {
             errorLabel.setText("");
         }
     }
+
     @FXML
-    public void onCSVExportBTN(ActionEvent actionEvent) {
+    private void onCSVExportBTN(ActionEvent actionEvent) {
         // Hole die Stage (Fenster), um sie an den CsvExport-Service zu übergeben
         Stage stage = (Stage) CSVExportBTN.getScene().getWindow();
 
@@ -247,7 +250,6 @@ public class Controller implements Initializable {
         // Rufe den Export-Service auf und übergebe die gefilterte Liste
         CsvExport.exportToCSV(stage, matching);
     }
-
 
     @FXML
     private ObservableList<AbstractMedium> filterMatching(String input) {
@@ -280,7 +282,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    public void onSaveButtonClick(ActionEvent actionEvent) {
+    private void onSaveButtonClick(ActionEvent actionEvent) {
         AbstractMedium medium = mediaTable.getSelectionModel().getSelectedItem();
 
         String titel = TitleTF.getText();
