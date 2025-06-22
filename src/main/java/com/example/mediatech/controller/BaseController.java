@@ -1,8 +1,6 @@
 package com.example.mediatech.controller;
 
 import com.example.mediatech.Starter;
-import com.example.mediatech.funktionalitaeten.CsvExport;
-import com.example.mediatech.funktionalitaeten.GemeinsameMethoden;
 import com.example.mediatech.medium.*; // Importiere alle Klassen aus dem 'medium' Paket
 
 // JavaFX Imports
@@ -42,13 +40,27 @@ public abstract class BaseController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if (mediaTable != null) {
             mediaTable.setItems(medienListe);
-            titleColumn.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getTitel()));
-            authorColumn.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getAutor()));
-            yearColumn.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getErscheinungsjahr()));
-            typColumn.setCellValueFactory(c -> new ReadOnlyStringWrapper(
-                    c.getValue() instanceof Buch ? "Buch" : c.getValue() instanceof DVD ? "DVD" : "?"));
+
+            if (titleColumn != null)
+                titleColumn.setCellValueFactory(c ->
+                        new ReadOnlyStringWrapper(c.getValue().getTitel()));
+
+            if (authorColumn != null)
+                authorColumn.setCellValueFactory(c ->
+                        new ReadOnlyStringWrapper(c.getValue().getAutor()));
+
+            if (yearColumn != null)
+                yearColumn.setCellValueFactory(c ->
+                        new ReadOnlyObjectWrapper<>(c.getValue().getErscheinungsjahr()));
+
+            if (typColumn != null)
+                typColumn.setCellValueFactory(c ->
+                        new ReadOnlyStringWrapper(
+                                c.getValue() instanceof Buch ? "Buch" :
+                                        c.getValue() instanceof DVD ? "DVD"  : "?"));
         }
     }
+
 
     /* ---------------- Navigation -------------- */
     @FXML

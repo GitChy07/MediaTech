@@ -10,13 +10,6 @@ public class DVD extends AbstractMedium implements GemeinsameMethoden {
     public int getFsk() { return fsk; }
 
     @Override
-    public String getExtAttrDesc(int attrNumber) {
-        return switch (attrNumber) {
-            case 1 -> "FSK";
-            default -> "NULL";
-        };
-    }
-    @Override
     public String getExtAttrVal(int attrNumber) {
         return switch (attrNumber) {
             case 1 -> String.valueOf(getFsk());
