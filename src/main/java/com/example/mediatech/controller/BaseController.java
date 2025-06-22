@@ -26,11 +26,16 @@ public abstract class BaseController implements Initializable {
     private static Parent root;
 
     /* ---------------- gemeinsame UI‑Elemente -------------- */
-    @FXML protected TableView<AbstractMedium> mediaTable;
-    @FXML protected TableColumn<AbstractMedium, String> titleColumn;
-    @FXML protected TableColumn<AbstractMedium, String> authorColumn;
-    @FXML protected TableColumn<AbstractMedium, Integer> yearColumn;
-    @FXML protected TableColumn<AbstractMedium, String> typColumn;
+    @FXML
+    protected TableView<AbstractMedium> mediaTable;
+    @FXML
+    protected TableColumn<AbstractMedium, String> titleColumn;
+    @FXML
+    protected TableColumn<AbstractMedium, String> authorColumn;
+    @FXML
+    protected TableColumn<AbstractMedium, Integer> yearColumn;
+    @FXML
+    protected TableColumn<AbstractMedium, String> typColumn;
 
     /* Gemeinsame Datenliste (kommt aus Starter) */
     protected final ObservableList<AbstractMedium> medienListe = Starter.medienListe;
@@ -57,7 +62,7 @@ public abstract class BaseController implements Initializable {
                 typColumn.setCellValueFactory(c ->
                         new ReadOnlyStringWrapper(
                                 c.getValue() instanceof Buch ? "Buch" :
-                                        c.getValue() instanceof DVD ? "DVD"  : "?"));
+                                        c.getValue() instanceof DVD ? "DVD" : "?"));
         }
     }
 
@@ -67,39 +72,35 @@ public abstract class BaseController implements Initializable {
     protected void showAddMedia(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/AddMenuUI.fxml")));   // << Pfad stimmt
+                        BaseController.class.getResource("/com/example/mediatech/AddMenuUI.fxml")));
         Scene scene = new Scene(root, 700, 520);
         scene.getStylesheets().add(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/style.css")).toExternalForm());
+                        BaseController.class.getResource("/com/example/mediatech/style.css")).toExternalForm());
         ((Stage) ((Node) e.getSource()).getScene().getWindow()).setScene(scene);
     }
+
     @FXML
     protected void showSearchMenu(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/SearchUI.fxml")));
+                        BaseController.class.getResource("/com/example/mediatech/SearchUI.fxml")));
         Scene scene = new Scene(root, 700, 520);
         scene.getStylesheets().add(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/style.css")).toExternalForm());
+                        BaseController.class.getResource("/com/example/mediatech/style.css")).toExternalForm());
         ((Stage) ((Node) e.getSource()).getScene().getWindow()).setScene(scene);
     }
+
     @FXML
     protected void showManageMenu(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/ManageUI.fxml")));
+                        BaseController.class.getResource("/com/example/mediatech/ManageUI.fxml")));
         Scene scene = new Scene(root, 700, 520);
         scene.getStylesheets().add(
                 Objects.requireNonNull(
-                        BaseController.class.getResource(
-                                "/com/example/mediatech/style.css")).toExternalForm());
+                        BaseController.class.getResource("/com/example/mediatech/style.css")).toExternalForm());
         ((Stage) ((Node) e.getSource()).getScene().getWindow()).setScene(scene);
     }
 

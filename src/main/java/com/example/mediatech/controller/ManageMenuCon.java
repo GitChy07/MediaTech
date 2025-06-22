@@ -83,7 +83,7 @@ public class ManageMenuCon extends BaseController {
 
     private ObservableList<AbstractMedium> filterByTyp(String typ) {
         return medienListe.filtered(m ->
-                ((GemeinsameMethoden) m).getTyp().equals(typ));
+                m.getTyp().equals(typ));
     }
 
     /* ---------- UPDATE-Button ---------- */
@@ -140,7 +140,6 @@ public class ManageMenuCon extends BaseController {
             }
         }
 
-        /* Anzeige aktualisieren & Felder leeren */
         mediaTable.refresh();
         errorLabel.setText("");
         extAttr1TF.clear(); extAttr2TF.clear();

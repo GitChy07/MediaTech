@@ -23,11 +23,14 @@ public abstract class AbstractMedium{
 
     public void setTitel(String titel) {
         this.titel = titel;
-    };
+    }
     public void setAutor(String autor) {
         this.autor = autor;
     }
 
     public void setErscheinungsjahr(int jahr) {this.erscheinungsjahr = erscheinungsjahr;}
+
+    public abstract String getTyp();
+
 
 }

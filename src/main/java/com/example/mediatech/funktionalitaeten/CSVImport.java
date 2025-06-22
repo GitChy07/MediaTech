@@ -40,18 +40,18 @@ public class CSVImport {
                 if (first) {
                     first = false;
                     continue;
-                }          // Header überspringen
+                }
 
-                String[] p = line.split(",", -1);                // -1  →  leere Felder bleiben leer
-                if (p.length < 4) continue;                      // Minimalprüfung
+                String[] p = line.split(",", -1);
+                if (p.length < 4) continue;
 
                 String titel = p[0].trim();
                 String autor = p[1].trim();
                 int jahr = Integer.parseInt(p[2].trim());
                 String typ = p[3].trim().toLowerCase();
 
-                String attr1 = p.length > 4 ? p[4].trim() : "";  // ISBN oder FSK
-                String attr2 = p.length > 5 ? p[5].trim() : "";  // Seitenzahl (nur Buch)
+                String attr1 = p.length > 4 ? p[4].trim() : "";
+                String attr2 = p.length > 5 ? p[5].trim() : "";
 
                 switch (typ) {
                     case "buch" -> {
@@ -80,7 +80,7 @@ public class CSVImport {
             System.out.println("CSV-Import: " + list.size() + " Medien geladen.");
 
         } catch (IOException | NumberFormatException ex) {
-            System.err.println("CSV-Fehler: " + ex.getMessage());
+            System.out.println("CSV-Fehler: " + ex.getMessage());
         }
         return list;
     }
