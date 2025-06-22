@@ -30,45 +30,58 @@ public class CSVImport {
     }
 
     private static ObservableList<AbstractMedium> readCSV(File file) {
-        ObservableList<AbstractMedium> liste = FXCollections.observableArrayList();
+        ObservableList<AbstractMedium> list = FXCollections.observableArrayList();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            boolean firstLine = true;
+            boolean first = true;
 
-            while ((line = reader.readLine()) != null) {
-                if (firstLine) {
-                    firstLine = false;
+            while ((line = br.readLine()) != null) {
+                if (first) {
+                    first = false;
                     continue;
-                }
+                }          // Header überspringen
 
-                String[] parts = line.split(",");
+                String[] p = line.split(",", -1);                // -1  →  leere Felder bleiben leer
+                if (p.length < 4) continue;                      // Minimalprüfung
 
-                if (parts.length < 4) continue; // Sicherheitscheck
+                String titel = p[0].trim();
+                String autor = p[1].trim();
+                int jahr = Integer.parseInt(p[2].trim());
+                String typ = p[3].trim().toLowerCase();
 
-                String titel = parts[0].trim();
-                String autor = parts[1].trim();
-                int jahr = Integer.parseInt(parts[2].trim());
-                String typ = parts[3].trim().toLowerCase();
+                String attr1 = p.length > 4 ? p[4].trim() : "";  // ISBN oder FSK
+                String attr2 = p.length > 5 ? p[5].trim() : "";  // Seitenzahl (nur Buch)
 
-                AbstractMedium medium = null;
-                if (typ.contains("buch")) {
-                    medium = new Buch(titel, autor, jahr);
-                } else if (typ.contains("dvd")) {
-                    medium = new DVD(titel, autor, jahr);
-                }
-
-                if (medium != null) {
-                    liste.add(medium);
+                switch (typ) {
+                    case "buch" -> {
+                        Buch b = new Buch(titel, autor, jahr);
+                        b.setIsbn(attr1);
+                        if (!attr2.isBlank()) {
+                            try {
+                                b.setSeitenanzahl(Integer.parseInt(attr2));
+                            } catch (NumberFormatException ignored) {
+                            }
+                        }
+                        list.add(b);
+                    }
+                    case "dvd" -> {
+                        DVD d = new DVD(titel, autor, jahr);
+                        if (!attr1.isBlank()) {
+                            try {
+                                d.setFsk(Integer.parseInt(attr1));
+                            } catch (NumberFormatException ignored) {
+                            }
+                        }
+                        list.add(d);
+                    }
                 }
             }
+            System.out.println("CSV-Import: " + list.size() + " Medien geladen.");
 
-            System.out.println("CSV-Import erfolgreich. Anzahl importierter Medien: " + liste.size());
-
-        } catch (IOException | NumberFormatException e) {
-            System.err.println("Fehler beim Lesen der CSV-Datei: " + e.getMessage());
+        } catch (IOException | NumberFormatException ex) {
+            System.err.println("CSV-Fehler: " + ex.getMessage());
         }
-
-        return liste;
+        return list;
     }
 }

@@ -35,15 +35,16 @@ public class CsvExport {
             writer.append("Titel,Autor,Erscheinungsjahr,Typ\n");
 
             // Schreibe jedes Medium aus der gefilterten Liste in die CSV-Datei
-            for (AbstractMedium medium : matching) {
-                writer.append(medium.getTitel())
-                        .append(",")
-                        .append(medium.getAutor())
-                        .append(",")
-                        .append(String.valueOf(medium.getErscheinungsjahr()))
-                        .append(",")
-                        .append(medium.getClass().getSimpleName())
-                        .append("\n");
+            for (AbstractMedium m : matching) {
+                String attr1 = ((GemeinsameMethoden) m).getExtAttrVal(1); // ISBN / FSK
+                String attr2 = ((GemeinsameMethoden) m).getExtAttrVal(2); // Seitenzahl oder leer
+
+                writer.append(m.getTitel()).append(",")
+                        .append(m.getAutor()).append(",")
+                        .append(String.valueOf(m.getErscheinungsjahr())).append(",")
+                        .append(m.getClass().getSimpleName().toLowerCase()).append(",")
+                        .append(attr1).append(",")
+                        .append(attr2).append("\n");
             }
 
             System.out.println("CSV-Datei wurde erfolgreich exportiert!");
