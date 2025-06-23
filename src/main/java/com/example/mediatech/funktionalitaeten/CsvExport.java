@@ -3,43 +3,69 @@ package com.example.mediatech.funktionalitaeten;
 import com.example.mediatech.medium.AbstractMedium;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.collections.ObservableList;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import javafx.collections.ObservableList;
 
+/**
+ *  CsvExport
+ *  =========
+ *  Speichert eine Liste von Medien (Buch oder DVD) in eine CSV-Datei.
+ *
+ *  - Spalten 0-3 :  Titel | Autor | Jahr | Typ
+ *  - Spalte 4    :  Extra-Attribut 1  (ISBN bzw. FSK)
+ *  - Spalte 5    :  Extra-Attribut 2  (Seitenzahl oder leer)
+ *
+ *  Ablauf:
+ *    1.  exportToCSV()   →  Dateidialog »Speichern unter« öffnen
+ *    2.  saveToFile()    →  ausgewählte Datei Zeile für Zeile beschreiben
+ */
 public class CsvExport {
 
-    // Methode zum Öffnen des Dialogs und Speichern der CSV-Datei
-    public static void exportToCSV(Stage stage, ObservableList<AbstractMedium> matching) {
-        // Erstelle einen FileChooser für die Dateiauswahl
-        FileChooser fileChooser = new FileChooser();
+    /* ==============================================================
+       1) Öffnet den FileChooser und ruft anschließend saveToFile()
+       ============================================================== */
+    public static void exportToCSV(Stage stage,
+                                   ObservableList<AbstractMedium> listToSave) {
 
-        // Filter für CSV-Dateien
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("CSV Dateien (*.csv)", "*.csv");
-        fileChooser.getExtensionFilters().add(filter);
+        // --- Dialogfenster vorbereiten -------------------------------------
+        FileChooser fc = new FileChooser();
+        fc.setTitle("CSV speichern");
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Dateien (*.csv)", "*.csv"));
 
-        // Öffne das "Speichern unter"-Fenster
-        File file = fileChooser.showSaveDialog(stage);
+        // --- Benutzer wählt Speicherort ------------------------------------
+        File file = fc.showSaveDialog(stage);
 
-        // Wenn eine Datei ausgewählt wurde, speichere sie
-        if (file != null) {
-            saveToFile(file, matching); // Übergebe die gefilterte Liste an die Methode
-        }
+        // Wenn »Abbrechen« gedrückt wurde → nichts tun
+        if (file == null) return;
+
+        // --- Datei wirklich schreiben --------------------------------------
+        saveToFile(file, listToSave);
     }
 
-    // Methode zum Speichern der Daten in der CSV-Datei
-    private static void saveToFile(File file, ObservableList<AbstractMedium> matching) {
-        try (FileWriter writer = new FileWriter(file)) {
-            // Schreibe den Header in die CSV-Datei
-            writer.append("Titel,Autor,Erscheinungsjahr,Typ\n");
+    /* ==============================================================
+       2) Schreibt Kopfzeile + Datenzeilen in die übergebene Datei
+       ============================================================== */
+    private static void saveToFile(File file,
+                                   ObservableList<AbstractMedium> data) {
 
-            // Schreibe jedes Medium aus der gefilterten Liste in die CSV-Datei
-            for (AbstractMedium m : matching) {
-                String attr1 = ((GemeinsameMethoden) m).getExtAttrVal(1); // ISBN / FSK
-                String attr2 = ((GemeinsameMethoden) m).getExtAttrVal(2); // Seitenzahl oder leer
+        try (FileWriter w = new FileWriter(file)) {
 
-                writer.append(m.getTitel()).append(",")
+            /* ---- Kopfzeile ------------------------------------------------ */
+            w.append("Titel,Autor,Erscheinungsjahr,Typ,Attr1,Attr2\n");
+
+            /* ---- Jede Zeile der Tabelle ---------------------------------- */
+            for (AbstractMedium m : data) {
+
+                // Extra-Spalten via Interface abfragen (ISBN/FSK, Seiten)
+                String attr1 = ((GemeinsameMethoden) m).getExtAttrVal(1);
+                String attr2 = ((GemeinsameMethoden) m).getExtAttrVal(2);
+
+                // Zeile zusammenbauen
+                w.append(m.getTitel()).append(",")
                         .append(m.getAutor()).append(",")
                         .append(String.valueOf(m.getErscheinungsjahr())).append(",")
                         .append(m.getClass().getSimpleName().toLowerCase()).append(",")
@@ -47,9 +73,10 @@ public class CsvExport {
                         .append(attr2).append("\n");
             }
 
-            System.out.println("CSV-Datei wurde erfolgreich exportiert!");
-        } catch (IOException e) {
-            System.err.println("Fehler beim Speichern der CSV-Datei: " + e.getMessage());
+            System.out.println("CSV-Export: Datei erfolgreich geschrieben.");
+
+        } catch (IOException ex) {
+            System.out.println("CSV-Export-Fehler: " + ex.getMessage());
         }
     }
 }

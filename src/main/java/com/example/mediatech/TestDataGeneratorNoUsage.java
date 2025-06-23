@@ -5,9 +5,7 @@ import com.example.mediatech.medium.DVD;
 
 public class TestDataGeneratorNoUsage {
 
-
     public static void generateSampleData() {
-
 
         Buch buch1 = new Buch("Der Herr der Ringe", "J.R.R. Tolkien", 1954);
         buch1.setIsbn("978-0261103573");

@@ -7,67 +7,69 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Controller für den „Search“-Screen.
+ * Er erbt von BaseController, deshalb sind Tabelle und globale Liste
+ * schon vorbereitet.
+ */
 public class SearchMenuCon extends BaseController {
 
-    @FXML public Button SearchBTN;
-    @FXML public Button CSVExportBTN;
-    @FXML private TextField SearchTF;
-    @FXML private Label errorLabel;
+    /* ---------- FXML-Elemente ---------- */
+    @FXML private Button SearchBTN;        // „SEARCH“-Button
+    @FXML private Button CSVExportBTN;     // „EXPORT CSV“-Button
+    @FXML private TextField SearchTF;      // Eingabe­feld für Suchtext
+    @FXML private Label errorLabel;        // zeigt „Keine Ergebnisse“ o. Ä. an
 
+    /* ==============================================================
+       1) SEARCH-Button – Liste filtern und anzeigen
+       ============================================================== */
     @FXML
-    protected void onSearchBTN(ActionEvent actionEvent) {
-        // Hole den Suchbegriff
-        String input = SearchTF.getText().trim().toLowerCase();
+    protected void onSearchBTN(ActionEvent e) {
 
-        // Hole die gefilterte Liste basierend auf dem Suchbegriff
-        ObservableList<AbstractMedium> matching = filterMatching(input);
+        String input = SearchTF.getText().trim().toLowerCase(); // Suchwort holen
 
-        // Zeige die gefilterte Liste in der TableView an
-        mediaTable.setItems(matching);
+        ObservableList<AbstractMedium> matching = filterMatching(input); // filtern
+        mediaTable.setItems(matching);                                  // Tabelle neu füllen
 
-        // Fehlermeldung, wenn keine Ergebnisse gefunden wurden
-        if (matching.isEmpty()) {
-            errorLabel.setText("Keine Ergebnisse");
-        } else {
-            errorLabel.setText("");
-        }
+        // Hinweis ausgeben, falls nichts gefunden
+        errorLabel.setText(matching.isEmpty() ? "Keine Ergebnisse" : "");
     }
 
+    /* ==============================================================
+       2) EXPORT-Button – gefilterte Liste als CSV speichern
+       ============================================================== */
     @FXML
-    public void onCSVExportBTN(ActionEvent actionEvent) {
-        // Hole die Stage (Fenster), um sie an den CsvExport-Service zu übergeben
-        Stage stage = (Stage) CSVExportBTN.getScene().getWindow();
+    public void onCSVExportBTN(ActionEvent e) {
 
-        // Hole die gefilterte Liste basierend auf der Suche
-        String input = SearchTF.getText().trim().toLowerCase();
+        Stage stage = (Stage) CSVExportBTN.getScene().getWindow();      // aktuelle Stage holen
+
+        String input = SearchTF.getText().trim().toLowerCase();         // selben Filter wie oben
         ObservableList<AbstractMedium> matching = filterMatching(input);
 
-        // Rufe den Export-Service auf und übergebe die gefilterte Liste
-        CsvExport.exportToCSV(stage, matching);
+        CsvExport.exportToCSV(stage, matching);                         // Datei schreiben
     }
 
-    @FXML
+    /* ==============================================================
+       3) Hilfs­methode: Textsuche über Titel, Autor, Jahr, Typ, Extras
+       ============================================================== */
     private ObservableList<AbstractMedium> filterMatching(String input) {
-        ObservableList<AbstractMedium> matching = FXCollections.observableArrayList();
 
-        // Wenn der Suchbegriff leer ist, gebe alle Medien zurück
-        if (input.isEmpty()) {
-            return medienListe; // Gibt die komplette Liste zurück, wenn kein Suchbegriff angegeben wurde
-        }
+        // Leere Eingabe → komplette Liste zurückgeben
+        if (input.isEmpty()) return medienListe;
 
-        // Durchlaufe alle Medien und prüfe, ob der Suchbegriff in Titel, Autor, Jahr oder Typ enthalten ist
-        for (AbstractMedium medium : medienListe) {
-            if (((GemeinsameMethoden) medium).suchen(input.toLowerCase())) {
-                matching.add(medium); // Füge das Medium zur Liste hinzu, wenn es passt
+        ObservableList<AbstractMedium> treffend = FXCollections.observableArrayList();
+
+        for (AbstractMedium m : medienListe) {
+            // GemeinsameMethoden.suchen() prüft mehrere Felder gleichzeitig
+            if (((GemeinsameMethoden) m).suchen(input)) {
+                treffend.add(m);
             }
         }
-        return matching; // Rückgabe der gefilterten Liste
+        return treffend;
     }
-
 }

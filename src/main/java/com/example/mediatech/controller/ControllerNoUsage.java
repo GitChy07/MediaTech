@@ -68,14 +68,14 @@ public class ControllerNoUsage implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         mediaTable.setItems(medienListe);
 
-        titleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitel()));
-        authorColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getAutor()));
-        yearColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getErscheinungsjahr()));
-        typColumn.setCellValueFactory(cellData -> {
-            if (cellData.getValue() instanceof Buch) {
+        titleColumn.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getTitel()));
+        authorColumn.setCellValueFactory(c -> new ReadOnlyStringWrapper(c.getValue().getAutor()));
+        yearColumn.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getErscheinungsjahr()));
+        typColumn.setCellValueFactory(c -> {
+            if (c.getValue() instanceof Buch) {
                 return new ReadOnlyStringWrapper("Buch");
 
-            } else if (cellData.getValue() instanceof DVD) {
+            } else if (c.getValue() instanceof DVD) {
                 return new ReadOnlyStringWrapper("DVD");
             } else {
                 return new ReadOnlyStringWrapper("Unbekannt");
